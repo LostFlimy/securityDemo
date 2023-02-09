@@ -1,10 +1,12 @@
 package com.example.securitydemo.controller;
 
-import com.example.securitydemo.filter.LoggingFilter;
+import com.example.securitydemo.configuration.KeycloakConfigurer;
 import com.example.securitydemo.filter.LoggingFilterSwitch;
-import java.util.Objects;
+import com.example.securitydemo.configuration.ObjectBasedKeycloakConfigResolver;
+import org.keycloak.representations.adapters.config.AdapterConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
@@ -14,10 +16,17 @@ public class ConfigureFilterController {
   private LoggingFilterSwitch filterSwitch;
   @Autowired
   private GenericWebApplicationContext context;
+  @Autowired
+  private KeycloakConfigurer keycloakConfigurer;
+  @Autowired
+  private ObjectBasedKeycloakConfigResolver keycloakConfigResolver;
 
-  @GetMapping("/configure/loggingFilter")
-  public void configure() {
-    filterSwitch.switchLogging();
+  @PostMapping ("/configure")
+  public void configure(@RequestBody AdapterConfig config) {
+    keycloakConfigResolver.setKeycloakDeployment(config);
+
+    // Старая реализация метода
+//    filterSwitch.switchLogging();
 //    if (!context.containsBean("loggingFilter")) {
 //      enableFilter();
 //      return;
@@ -25,7 +34,7 @@ public class ConfigureFilterController {
 //    context.removeBeanDefinition("loggingFilter");
   }
 
- private void registerFilter() {
-   Objects.requireNonNull(context.getServletContext()).addFilter("loggingFilter", new LoggingFilter());
- }
+// private void registerFilter() {
+//   Objects.requireNonNull(context.getServletContext()).addFilter("loggingFilter", new LoggingFilter());
+// }
 }
