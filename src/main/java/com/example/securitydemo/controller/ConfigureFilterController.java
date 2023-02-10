@@ -1,7 +1,5 @@
 package com.example.securitydemo.controller;
 
-import com.example.securitydemo.configuration.KeycloakConfigurer;
-import com.example.securitydemo.filter.LoggingFilterSwitch;
 import com.example.securitydemo.configuration.ObjectBasedKeycloakConfigResolver;
 import org.keycloak.representations.adapters.config.AdapterConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +11,7 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
 @RestController
 public class ConfigureFilterController {
   @Autowired
-  private LoggingFilterSwitch filterSwitch;
-  @Autowired
   private GenericWebApplicationContext context;
-  @Autowired
-  private KeycloakConfigurer keycloakConfigurer;
   @Autowired
   private ObjectBasedKeycloakConfigResolver keycloakConfigResolver;
 
