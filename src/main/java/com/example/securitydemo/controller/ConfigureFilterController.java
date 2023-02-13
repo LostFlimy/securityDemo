@@ -1,7 +1,7 @@
 package com.example.securitydemo.controller;
 
 import com.example.securitydemo.configuration.ObjectBasedKeycloakConfigResolver;
-import org.keycloak.representations.adapters.config.AdapterConfig;
+import com.example.securitydemo.model.identityProvider.KeycloakConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,8 +16,8 @@ public class ConfigureFilterController {
   private ObjectBasedKeycloakConfigResolver keycloakConfigResolver;
 
   @PostMapping ("/configure")
-  public void configure(@RequestBody AdapterConfig config) {
-    keycloakConfigResolver.setKeycloakDeployment(config);
+  public void configure(@RequestBody KeycloakConfig config) {
+
 
     // Старая реализация метода
 //    filterSwitch.switchLogging();
