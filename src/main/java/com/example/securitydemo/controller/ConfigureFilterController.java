@@ -1,7 +1,9 @@
 package com.example.securitydemo.controller;
 
 import com.example.securitydemo.configuration.ObjectBasedKeycloakConfigResolver;
-import com.example.securitydemo.model.identityProvider.KeycloakConfig;
+import com.example.securitydemo.filter.KeycloakIntegrationFilterState;
+import com.example.securitydemo.filter.KeycloakOIDCFilterConfig;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,21 +16,17 @@ public class ConfigureFilterController {
   private GenericWebApplicationContext context;
   @Autowired
   private ObjectBasedKeycloakConfigResolver keycloakConfigResolver;
+  @Autowired
+  private KeycloakOIDCFilterConfig filterConfig;
+  @Autowired
+  private KeycloakIntegrationFilterState state;
 
-  @PostMapping ("/configure")
-  public void configure(@RequestBody KeycloakConfig config) {
-
-
-    // Старая реализация метода
-//    filterSwitch.switchLogging();
-//    if (!context.containsBean("loggingFilter")) {
-//      enableFilter();
-//      return;
-//    }
-//    context.removeBeanDefinition("loggingFilter");
+  @PostMapping("/configure")
+  public void configure(@RequestBody Map<String, String> config) {
+    state.setUpdated(true);
+    filterConfig.storeConfig(config);
   }
 
-// private void registerFilter() {
-//   Objects.requireNonNull(context.getServletContext()).addFilter("loggingFilter", new LoggingFilter());
-// }
+   private void registerFilter() {
+   }
 }
